@@ -1,0 +1,56 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+
+  -webkit-box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  margin: 24px;
+}
+
+.group {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.group > input,
+.group > textarea {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  text-align: start;
+}
+
+.group > textarea {
+  resize: vertical;
+  min-height: 40px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.group > label {
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+
+.addButon {
+  align-self: center;
+  text-align: center;
+
+  margin-top: 24px;
+  height: 34px;
+  width: 55%;
+  background-color: #388dee;
+  border-radius: 20px;
+  border-width: 2px;
+  border-color: antiquewhite;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: beige;
+}

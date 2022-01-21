@@ -1,0 +1,70 @@
+.container {
+  width: 100%;
+  -webkit-box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.12);
+  padding: 16px;
+  border-radius: 4px;
+  width: auto;
+}
+
+.item {
+  border-bottom: 1px solid;
+  border-bottom-color: #355ed1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  /* flex:  0 auto; */
+}
+
+.item:hover {
+  cursor: pointer;
+  background-color: #e7f1fc;
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+}
+
+.closeButton {
+  background-color: transparent;
+  border: 0px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+}
+
+.closeButton:hover,
+.closeButton:focus,
+.closeButton:active {
+  cursor: pointer;
+  background-color: rgb(238, 206, 206);
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+.editButton {
+  padding: 5px;
+  min-width: 40px;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.editButton:hover {
+  background-color: #d1d1d1;
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+}
+
+.deleteButton {
+  padding: 5px;
+  min-width: 40px;
+  margin-right: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.deleteButton:hover {
+  background-color: #d1d1d1;
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+}
