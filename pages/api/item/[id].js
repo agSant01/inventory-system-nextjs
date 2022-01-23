@@ -10,6 +10,9 @@ async function updateItem({ item }) {
     Item: {
       ...item,
       last_updated_at: Math.floor(Date.now() / 1000),
+      index: undefined,
+      deleted: false,
+      deleted_at: null,
     },
     ConditionExpression: 'deleted <> :deleted',
     ExpressionAttributeValues: {

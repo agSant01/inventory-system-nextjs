@@ -24,6 +24,9 @@ const customStyles = {
     marginRight: '-25%',
     transform: 'translate(-16%, -50%)',
   },
+  overlay: {
+    zIndex: 100,
+  },
 };
 
 Modal.setAppElement('main');
@@ -85,9 +88,11 @@ function ItemList({ onEdit, onDelete, reload }) {
     switch (modal) {
       case 'edit':
         setEditState({ isOpen: false, item: null });
+        document.body.style.overflow = 'unset';
         break;
       case 'detail':
         setDetailState({ isOpen: false, item: null });
+        document.body.style.overflow = 'unset';
         break;
       default:
         break;
@@ -99,9 +104,11 @@ function ItemList({ onEdit, onDelete, reload }) {
     switch (modal) {
       case 'detail':
         setDetailState({ isOpen: true, item: { ...item } });
+        document.body.style.overflow = 'hidden';
         break;
       case 'edit':
         setEditState({ isOpen: true, item: { ...item } });
+        document.body.style.overflow = 'hidden';
         break;
       default:
         break;
@@ -121,10 +128,13 @@ function ItemList({ onEdit, onDelete, reload }) {
       .then(() => {
         // eslint-disable-next-line no-console
         console.log(`Item update. New item: ${JSON.stringify(item)}`);
+
         Object.assign(
           itemList.data.find((value) => value.id === item.id),
           { ...item }
         );
+
+        updateCategorySelector(itemList.data);
 
         if (onEdit) {
           onEdit(editState.item);
@@ -139,27 +149,28 @@ function ItemList({ onEdit, onDelete, reload }) {
       });
   };
 
-  const internalDelete = async (item) => {
+  const internalDelete = (item) => {
     // console.log(`Item deleted: ${JSON.stringify(item)}`);
-    await fetch(`api/item/${item.id}`, {
+    fetch(`api/item/${item.id}`, {
       method: 'DELETE',
       body: JSON.stringify({ item }),
       headers: {
         'Content-Type': 'application/json',
       },
+    }).then(() => {
+      setPaginationState({ ...paginationState, currentPage: 1 });
+      const updatedList = itemList.data.filter(
+        (toFilter) => toFilter.id !== item.id
+      );
+      setItemList({
+        data: updatedList,
+        total: updatedList.length,
+      });
+      updateCategorySelector(updatedList);
+      if (onDelete) {
+        onDelete(item);
+      }
     });
-    setPaginationState({ ...paginationState, currentPage: 1 });
-    const updatedList = itemList.data.filter(
-      (toFilter) => toFilter.id !== item.id
-    );
-    setItemList({
-      data: updatedList,
-      total: updatedList.length,
-    });
-    updateCategorySelector(updatedList);
-    if (onDelete) {
-      onDelete(item);
-    }
   };
 
   let list;

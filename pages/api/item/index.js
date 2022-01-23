@@ -7,14 +7,14 @@ async function getAllItems({ category }) {
   const params = {
     TableName: TABLE_NAME,
     ProjectionExpression: 'title, description, category, #URL, #ID, #CA',
-    FilterExpression: 'deleted = :deleted',
+    FilterExpression: 'deleted <> :deleted',
     ExpressionAttributeNames: {
       '#URL': 'url',
       '#ID': 'id',
       '#CA': 'created_at',
     },
     ExpressionAttributeValues: {
-      ':deleted': false,
+      ':deleted': true,
     },
   };
 
