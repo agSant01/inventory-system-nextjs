@@ -8,8 +8,15 @@ import styles from './item.module.css';
 
 const MAX_DESCRIPTION_LEN = 400;
 
-function Item({ id, title, description, category, url, truncateDescription }) {
-  if (description.length > MAX_DESCRIPTION_LEN && truncateDescription) {
+function Item({
+  index,
+  title,
+  description,
+  category,
+  url,
+  truncateDescription,
+}) {
+  if (description?.length > MAX_DESCRIPTION_LEN && truncateDescription) {
     // eslint-disable-next-line no-param-reassign
     description = `${description.slice(0, MAX_DESCRIPTION_LEN)}...`;
   }
@@ -25,7 +32,7 @@ function Item({ id, title, description, category, url, truncateDescription }) {
             fontWeight: 'bold',
           }}
         >
-          {id}
+          {index}
         </span>
         <div className={styles.image}>
           {url ? (
@@ -44,7 +51,8 @@ function Item({ id, title, description, category, url, truncateDescription }) {
           <div className={styles.title}>Title: {title}</div>
           <div className={styles.category}>
             {' '}
-            Category: <span style={{ fontStyle: 'italic' }}>{category}</span>
+            Category:{' '}
+            <span style={{ fontStyle: 'italic' }}>{category || 'N/A'}</span>
           </div>
           <div>
             <span style={{ fontWeight: 'bold' }}>Description</span>
@@ -63,7 +71,7 @@ function Item({ id, title, description, category, url, truncateDescription }) {
 }
 
 Item.propTypes = {
-  id: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,

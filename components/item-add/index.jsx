@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles.module.css';
 
-function ItemAdd({ item, onChange, onSubmit }) {
+function ItemAdd({ onChange, onSubmit }) {
   const internalItem = useRef({
     title: null,
     category: null,
@@ -15,11 +15,13 @@ function ItemAdd({ item, onChange, onSubmit }) {
 
   const internalOnChange = (event) => {
     event.preventDefault();
+
     const key = event.target.name || undefined;
+
     if (key) {
       internalItem.current[key] = event.target.value || null;
     }
-    item(internalItem.current);
+
     if (onChange) {
       onChange(internalItem.current);
     }
@@ -27,7 +29,17 @@ function ItemAdd({ item, onChange, onSubmit }) {
 
   const sendItem = async (event) => {
     event.preventDefault();
+
+    await fetch('api/item', {
+      method: 'POST',
+      body: JSON.stringify({ item: internalItem.current }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
     onSubmit(internalItem.current);
+
     event.target.reset();
     internalItem.current = {
       title: null,
@@ -68,15 +80,6 @@ function ItemAdd({ item, onChange, onSubmit }) {
       <div className={styles.group}>
         <label htmlFor="category">
           Category <br />
-          <span
-            style={{
-              fontSize: '12px',
-              fontWeight: 'normal',
-              fontStyle: 'italic',
-            }}
-          >
-            For multipe categories separate with a comma. &quot;,&quot;
-          </span>
         </label>
         <input
           id="category"
@@ -97,7 +100,7 @@ function ItemAdd({ item, onChange, onSubmit }) {
           placeholder="Image URL (optional)"
         />
       </div>
-      <button className={styles.addButon} type="submit">
+      <button className={styles.addButton} type="submit">
         Add
       </button>
     </form>
@@ -105,7 +108,6 @@ function ItemAdd({ item, onChange, onSubmit }) {
 }
 
 ItemAdd.propTypes = {
-  item: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
 };

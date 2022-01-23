@@ -8,6 +8,8 @@ import styles from './styles.module.css';
 function ItemEdit({ item, onChange, onSubmit, currentValue }) {
   const internalItem = useRef(
     currentValue || {
+      id: null,
+      createdAt: null,
       title: null,
       category: null,
       description: null,
@@ -73,15 +75,6 @@ function ItemEdit({ item, onChange, onSubmit, currentValue }) {
       <div className={styles.group}>
         <label htmlFor="category">
           Category <br />
-          <span
-            style={{
-              fontSize: '12px',
-              fontWeight: 'normal',
-              fontStyle: 'italic',
-            }}
-          >
-            For multipe categories separate with a comma. &quot;,&quot;
-          </span>
         </label>
         <input
           id="category"
@@ -104,7 +97,7 @@ function ItemEdit({ item, onChange, onSubmit, currentValue }) {
           defaultValue={internalItem.current.url}
         />
       </div>
-      <button className={styles.addButon} type="submit">
+      <button className={styles.addButton} type="submit">
         Edit
       </button>
     </form>
@@ -116,10 +109,10 @@ ItemEdit.propTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   currentValue: PropTypes.shape({
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     category: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    url: PropTypes.string,
   }),
 };
 
