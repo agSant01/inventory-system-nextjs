@@ -1,0 +1,40 @@
+.paginator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginator > div {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.paginator > Select {
+  padding-left: 10px;
+}
+
+.switches {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.switches > button {
+  margin-left: 10px;
+  margin-right: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .paginator,
+  .itemsPerPage {
+    flex-direction: column;
+  }
+
+  .paginator > div {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+}
