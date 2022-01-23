@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.css';
 
 function ItemAdd({ onChange, onSubmit }) {
+  // useRef to maintain value in between renders
   const internalItem = useRef({
     title: null,
     category: null,
@@ -15,21 +16,21 @@ function ItemAdd({ onChange, onSubmit }) {
 
   const internalOnChange = (event) => {
     event.preventDefault();
-
     const key = event.target.name || undefined;
-
     if (key) {
       internalItem.current[key] = event.target.value || null;
     }
-
     if (onChange) {
       onChange(internalItem.current);
     }
   };
 
-  const sendItem = async (event) => {
-    event.preventDefault();
-
+  /**
+   * Handler for form submit
+   * @param {React.FormEventHandler<HTMLFormElement>} event
+   */
+  const internalOnSubmit = async (event) => {
+    event.preventDefault(); // prevent default behaviour which is page reload
     await fetch('api/item', {
       method: 'POST',
       body: JSON.stringify({ item: internalItem.current }),
@@ -40,7 +41,7 @@ function ItemAdd({ onChange, onSubmit }) {
 
     onSubmit(internalItem.current);
 
-    event.target.reset();
+    event.target.reset(); // reset form
     internalItem.current = {
       title: null,
       category: null,
@@ -52,7 +53,7 @@ function ItemAdd({ onChange, onSubmit }) {
   return (
     <form
       className={styles.form}
-      onSubmit={sendItem}
+      onSubmit={internalOnSubmit}
       onChange={internalOnChange}
     >
       <div className={styles.group}>

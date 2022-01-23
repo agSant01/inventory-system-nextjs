@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.css';
 
 function ItemEdit({ item, onChange, onSubmit, currentValue }) {
+  // Use reference to maintain value in between renders
   const internalItem = useRef(
     currentValue || {
       id: null,
@@ -17,8 +18,12 @@ function ItemEdit({ item, onChange, onSubmit, currentValue }) {
     }
   );
 
+  /**
+   * Listener for changes on the input fields
+   * @param {React.FormEventHandler<HTMLFormElement} event
+   */
   const internalOnChange = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // prevent default behaviour which is page reload
     const key = event.target.name || undefined;
     if (key) {
       internalItem.current[key] = event.target.value || null;
@@ -29,11 +34,17 @@ function ItemEdit({ item, onChange, onSubmit, currentValue }) {
     }
   };
 
-  const sendItem = async (event) => {
-    event.preventDefault();
+  /**
+   * Submited form handler
+   * @param {React.FormEventHandler<HTMLFormElement} event
+   */
+  const onSubmitItem = (event) => {
+    event.preventDefault(); // prevent default behaviour which is page reload
     onSubmit(internalItem.current);
-    event.target.reset();
+    event.target.reset(); // reset form
     internalItem.current = {
+      id: null,
+      createdAt: null,
       title: null,
       category: null,
       description: null,
@@ -44,7 +55,7 @@ function ItemEdit({ item, onChange, onSubmit, currentValue }) {
   return (
     <form
       className={styles.form}
-      onSubmit={sendItem}
+      onSubmit={onSubmitItem}
       onChange={internalOnChange}
     >
       <h2>Edit Item</h2>

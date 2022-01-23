@@ -9,7 +9,7 @@ import makeAnimated from 'react-select/animated';
 
 import styles from './styles.module.css';
 
-import Item from '../item/item';
+import Item from '../item';
 import ItemEdit from '../item-edit';
 import Paginator from '../paginator';
 
@@ -35,6 +35,9 @@ function ItemList({ onEdit, onDelete, reload }) {
   // eslint-disable-next-line no-console
   console.log('Item List...');
 
+  /**
+   * States
+   */
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [detailState, setDetailState] = useState({ isOpen: false, item: null });
   const [editState, setEditState] = useState({ isOpen: false, item: null });
@@ -45,6 +48,10 @@ function ItemList({ onEdit, onDelete, reload }) {
     currentPage: 1,
     limit: 15,
   });
+
+  /**
+   * Helper Functions
+   */
 
   const updateCategorySelector = (data) => {
     const uniqueCategories = [...new Set(data.map(({ category }) => category))];
@@ -57,33 +64,10 @@ function ItemList({ onEdit, onDelete, reload }) {
     );
   };
 
-  useEffect(() => {
-    setListState({ listState: 'loading' });
-    let queryString = '';
-    if (selectedOption && selectedOption.length > 0) {
-      queryString = `?category=${selectedOption}`;
-    }
-
-    fetch(`api/item${queryString}`)
-      .then((res) => res.json())
-      .then(({ data, total }) => {
-        setItemList({
-          data: data.map((value, index) => ({
-            index: index + 1,
-            ...value,
-          })),
-          total,
-        });
-        updateCategorySelector(data);
-        setListState({ listState: 'ready' });
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error(`Error fetching items: ${error}`);
-        setListState({ listState: 'error' });
-      });
-  }, [selectedOption, reload]);
-
+  /**
+   * Close either Edit or Detail Modals
+   * @param {'edit' | 'detail'} modal
+   */
   const closeModal = (modal) => {
     switch (modal) {
       case 'edit':
@@ -99,6 +83,10 @@ function ItemList({ onEdit, onDelete, reload }) {
     }
   };
 
+  /**
+   * Set state for a given modal.
+   * @param {{item: Object, modal: 'edit' | 'detail', event: React.KeyboardEvent<HTMLDivElement> }} modal
+   */
   const setModalState = (item, modal, event) => {
     event?.preventDefault();
     switch (modal) {
@@ -173,8 +161,44 @@ function ItemList({ onEdit, onDelete, reload }) {
     });
   };
 
+  /**
+   * Fetch the Items.
+   * Dependent on states: `reload` and `selectedOption`
+   *
+   * Will hit api endpoint on change of selected category
+   * filter and a reload signal from parent component
+   */
+
+  useEffect(() => {
+    setListState({ listState: 'loading' });
+    let queryString = '';
+    if (selectedOption && selectedOption.length > 0) {
+      queryString = `?category=${selectedOption}`;
+    }
+
+    fetch(`api/item${queryString}`)
+      .then((res) => res.json())
+      .then(({ data, total }) => {
+        setItemList({
+          data: data.map((value, index) => ({
+            index: index + 1,
+            ...value,
+          })),
+          total,
+        });
+        updateCategorySelector(data);
+        setListState({ listState: 'ready' });
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(`Error fetching items: ${error}`);
+        setListState({ listState: 'error' });
+      });
+  }, [selectedOption, reload]);
+
   let list;
   switch (listState.listState) {
+    // Loading Animation
     case 'loading':
       list = (
         <div className={styles.loading}>
@@ -188,6 +212,7 @@ function ItemList({ onEdit, onDelete, reload }) {
       );
       break;
     case 'ready':
+      // Finished request
       if (!itemList.data || itemList.data.length === 0) {
         list = (
           <div style={{ textAlign: 'center', alignItems: 'center' }}>
@@ -236,6 +261,7 @@ function ItemList({ onEdit, onDelete, reload }) {
       }
       break;
     case 'error':
+      // Request to API ended in error
       list = (
         <h3 style={{ textAlign: 'center', color: 'red' }}>
           Error requesting items.

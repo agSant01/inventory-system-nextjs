@@ -1,4 +1,4 @@
-import db from '../../../db';
+import dynamoDbClient from '../../../database';
 import { getUniqueId } from '../../../utils';
 
 const TABLE_NAME = 'inventory';
@@ -28,9 +28,9 @@ async function getAllItems({ category }) {
 
   let result;
   if (useQuery) {
-    result = await db.query(params).promise();
+    result = await dynamoDbClient.query(params).promise();
   } else {
-    result = await db.scan(params).promise();
+    result = await dynamoDbClient.scan(params).promise();
   }
 
   return {
@@ -56,7 +56,7 @@ async function createItem({ item }) {
     Item: itemWithId,
   };
 
-  await db.put(params).promise();
+  await dynamoDbClient.put(params).promise();
 
   return itemWithId;
 }

@@ -1,4 +1,4 @@
-import db from '../../../db';
+import dynamoDbClient from '../../../database';
 
 const TABLE_NAME = 'inventory';
 
@@ -20,7 +20,7 @@ async function updateItem({ item }) {
     },
   };
 
-  const result = await db.put(params).promise();
+  const result = await dynamoDbClient.put(params).promise();
 
   return result;
 }
@@ -47,7 +47,7 @@ async function deleteItem(id, { item }) {
   // const result = await db.delete(params).promise();
   // Good practice is to never delete records from DB. Instead flag them as deleted.
 
-  const result = await db.update(params).promise();
+  const result = await dynamoDbClient.update(params).promise();
 
   return result;
 }

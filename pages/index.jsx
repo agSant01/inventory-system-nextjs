@@ -8,12 +8,14 @@ function Home() {
   // eslint-disable-next-line no-console
   console.log('Home...');
 
+  // State to allow the ItemAdd component trigger a state
+  // change so we can fetch and render again ItemList with the updated list.
   const [reload, setReload] = useState(false);
 
   const handleSubmit = (item) => {
     // eslint-disable-next-line no-console
     console.log(`Event: ${JSON.stringify(item)}`);
-    setReload(!reload);
+    setReload(!reload); // change state to trigger child ItemList render
   };
 
   return (
