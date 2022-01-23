@@ -108,7 +108,7 @@ function ItemEdit({ item, onChange, onSubmit, currentValue }) {
           defaultValue={internalItem.current.url}
         />
       </div>
-      <button className={styles.addButton} type="submit">
+      <button className={styles.editButton} type="submit">
         Edit
       </button>
     </form>

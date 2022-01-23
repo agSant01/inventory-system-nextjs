@@ -15,8 +15,16 @@
 .group > textarea {
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
+
   font-size: 14px;
   text-align: start;
+
+  border-radius: 4px;
+  border: 1px solid #d5d5d5 !important;
+  -webkit-box-shadow: 0px 1px 4px 2px #d5d5d5;
+  -moz-box-shadow: 0px 1px 4px 2px #d5d5d5;
+  box-shadow: 0px 1px 4px 2px #d5d5d5;
 }
 
 .group > textarea {
@@ -32,7 +40,7 @@
   padding-bottom: 10px;
 }
 
-.addButton {
+.editButton {
   align-self: center;
   text-align: center;
 
@@ -42,9 +50,29 @@
   background-color: #388dee;
   border-radius: 20px;
   border-width: 2px;
-  border-color: antiquewhite;
+  border: 1px solid #d5d5d5 !important;
 
   font-size: 16px;
   font-weight: bold;
-  color: beige;
+  color: aliceblue;
+
+  -webkit-box-shadow: 0px 1px 4px 2px #d5d5d5;
+  -moz-box-shadow: 0px 1px 4px 2px #d5d5d5;
+  box-shadow: 0px 1px 4px 2px #d5d5d5;
+}
+
+.editButton:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 1px 4px 2px #d5d5d5;
+  -moz-box-shadow: 0px 1px 4px 2px #d5d5d5;
+  box-shadow: 0px 1px 4px 2px #d5d5d5;
+  transition: box-shadow 0.2s ease;
+}
+
+/* // Size can also be negative; see how it's smaller than the element */
+.editButton:hover,
+.editButton:focus {
+  box-shadow: 0px 3px 5px 3px #d5d5d5;
+  transform: translateY(-0.15em);
+  transition: 0.2s ease-out;
 }
